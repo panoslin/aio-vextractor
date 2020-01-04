@@ -1,0 +1,6 @@
+/.idea
+*.pyc
+/venv
+/.DS_Store
+test.py
+logs.txt

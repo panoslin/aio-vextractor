@@ -1,0 +1,41 @@
+version: '3.7'
+services:
+  web:
+    image: extractor:latest
+    stop_grace_period: 5m
+    deploy:  # This only takes effect when deploying to a swarm with docker stack deploy, and is ignored by docker-compose up and docker-compose run.
+      mode: global
+      resources:
+        limits:
+          cpus: "1"  # limiting each one to use, at most, 10 core of CPU
+          memory: 1000M  # limiting each one to use, at most, 4096M of RAM
+      update_config:
+        parallelism: 1
+        delay: 300s
+        failure_action: rollback
+        monitor: 60s
+        order: stop-first
+
+      restart_policy:
+        condition: any # Immediately restart containers if one fails.
+        delay: '120s' # How long to wait between restart attempts, specified as a duration (default: 0).
+        window: '30s' # How long to wait before deciding if a restart has succeeded
+    ports:
+      - 5555:5555
+    volumes:
+      - /etc/ssl/openssl.cnf:/etc/ssl/openssl.cnf  # mount
+      - /etc/localtime:/etc/localtime  # mount
+      - .:/aioVextractor  # mount
+    command: gunicorn -c gunicorn-conf.py  demo-api:app
+
+  portainer:
+    image: portainer/portainer
+    ports:
+      - 9000:9000
+    volumes:
+      - mount:/data
+      - //var/run/docker.sock:/var/run/docker.sock
+    command: -H unix:///var/run/docker.sock
+
+volumes:
+  mount:
