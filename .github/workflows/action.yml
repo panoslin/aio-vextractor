@@ -1,0 +1,58 @@
+name: action
+
+on:
+  pull_request_review:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  test:
+    runs-on: ubuntu-18.04
+    strategy:
+      max-parallel: 2
+      matrix:
+        python-version: [3.6, 3.7]
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: ${{ github.event.after }}
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: x64
+    - name: Install dependencies
+      run: |
+        sudo apt-get install python${{ matrix.python-version }}-dev
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements-for-dev.txt
+        python -m pip install -U "urllib3<1.25"
+    - name: Test with pytest
+      run: pytest aioVextractor/test_extractor.py --concmode=mproc  --disable-pytest-warnings --color=yes
+
+  build:
+    needs: test
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: master
+    - name: Docker Login
+      run: docker login -u panoslin -p ${{secrets.DOCKERHUB_LOGIN_PASSWORD}}
+    - name: Build the Docker image
+      run: docker build --tag panoslin/extractor:${{github.sha}} .
+    - name: Push the Docker image
+      run: docker push panoslin/extractor
+
+
+
+
+
+
+
+
+
+
+
+
