@@ -1,4 +1,4 @@
-aiohttp==3.5.4
+aiohttp==3.7.4
 aiostream==0.3.1
 brotlipy==0.7.0
 bloom-filter==1.3
