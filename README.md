@@ -1,5 +1,8 @@
 # aioVextractor
-Extractor video info asynchronously
+
+Extract video structured data from more than 40 websites/mobile apps/H5 pages. Supporting TikTok, Youtube, Instagram, etc.
+
+解析视频 网站/APP/H5 页面视频信息。支持抖音、腾讯视频、YouTube、Instagram 等40余个网站与APP
 
 
 ##### 开发文档
