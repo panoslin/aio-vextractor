@@ -178,8 +178,8 @@ FIELDS_RSS = {
 
 }
 
-SANIC_PORT = 5555
-SANIC_WORKER = min([os.cpu_count(), 5])
+SANIC_PORT = 8080
+SANIC_WORKER = min([os.cpu_count(), 2])
 LOCAL_IP_ADDR = '0.0.0.0'
 MAX_ESTIMATE_RECORD_NUMBER = 5000000
 check_latest_buffer = 5  ## check_latest_buffer
