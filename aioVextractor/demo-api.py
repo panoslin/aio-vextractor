@@ -25,7 +25,7 @@ app.config.KEEP_ALIVE = True
 app.config.KEEP_ALIVE_TIMEOUT = 500
 app.config.RESPONSE_TIMEOUT = 500
 CORS(app, automatic_options=True)
-å
+
 
 @app.route('/')
 async def homepage(request):
@@ -53,6 +53,7 @@ async def extractor(request):
             encoded_params = request.form.get('next', b'e30=')
     if url:
         ## decode the necessary params for next page
+        print(f"Receive URL: {url}")
         params = json.loads(str(base64.b64decode(encoded_params), 'utf-8'))
         async with  aiohttp.ClientSession() as session:
             result = await hybrid_worker(
@@ -103,5 +104,5 @@ if __name__ == '__main__':
             workers=config.SANIC_WORKER,
             debug=True,
             access_log=True,
-            strict_slashes=False,
+            # strict_slashes=False,
             )
