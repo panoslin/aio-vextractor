@@ -6,7 +6,7 @@ bs4==0.0.1
 emoji==0.5.2
 gunicorn==19.9.0
 jmespath==0.9.4
-lxml==4.6.3
+lxml==4.9.1
 mysql-connector-python==8.0.18
 PyExecJS==1.5.1
 pyppeteer==0.0.25
