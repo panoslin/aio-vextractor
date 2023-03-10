@@ -9,20 +9,20 @@ gunicorn -c gunicorn/gunicorn_conf.py  gluttony.tony:app
 
 import os
 
-bind = f'0.0.0.0:5555'
+bind = f'0.0.0.0:8080'
 ## Gunicorn should only need 4-12 worker processes
 ## to handle hundreds or thousands of requests per second.
-workers = min(os.cpu_count(), 5)
+workers = max(os.cpu_count(), 2)
 ## The number of worker threads for handling requests.
 ## A positive integer generally in the 2-4 x $(NUM_CORES) range.
 ## You’ll want to vary this a bit to find the best for your particular application’s work load.
-threads = min(os.cpu_count(), 5)
+threads = max(os.cpu_count(), 2)
 ## Daemonize the Gunicorn process.
 ## Detaches the server from the controlling terminal and enters the background.
 # daemon = True
 reload = False
 
-worker_class = 'sanic.worker.GunicornWorker'
+worker_class = 'uvicorn.workers.UvicornWorker'
 ## The maximum number of requests a worker will process before restarting.
 ## Any value greater than zero will limit the number of requests a work will process before automatically restarting.
 ## This is a simple method to help limit the damage of memory leaks.

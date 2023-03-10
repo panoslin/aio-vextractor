@@ -18,21 +18,14 @@ import aiohttp
 import config
 from aioVextractor.api import hybrid_worker
 import base64
+import json
 
-if platform.system() in {"Linux", "Darwin"}:
-    import uvloop
-    import ujson as json
-
-    uvloop.install()
-else:
-    import json
-
-app = Sanic()
+app = Sanic('Extractor')
 app.config.KEEP_ALIVE = True
 app.config.KEEP_ALIVE_TIMEOUT = 500
 app.config.RESPONSE_TIMEOUT = 500
 CORS(app, automatic_options=True)
-
+å
 
 @app.route('/')
 async def homepage(request):
